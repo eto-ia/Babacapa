@@ -14,16 +14,13 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        void Update()
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                bool isPaused = pauseMenu.activeSelf;
-                Time.timeScale = isPaused ? 1f : 0f;
-                pauseMenu.SetActive(!isPaused);
-                Cursor.visible = !isPaused;
-                Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
-            }
+            bool isPaused = pauseMenu.activeSelf;
+            Time.timeScale = isPaused ? 1f : 0f;
+            pauseMenu.SetActive(!isPaused);
+            Cursor.visible = !isPaused;
+            Cursor.lockState = isPaused ? CursorLockMode.Locked : CursorLockMode.None;
         }
     }
 }
