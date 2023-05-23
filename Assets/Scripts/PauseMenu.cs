@@ -5,12 +5,13 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
 
-    public GameObject pauseMenu;
-    public GameObject Volume;
-    public GameObject Camera;
-    public GameObject inventory;
-    private bool isPaused = true;
+    private GameObject pauseMenu;
+    private GameObject Volume;
+    private GameObject Camera;
+    private GameObject inventory;
+    private bool isnotPaused = true;
     private bool isInventory = true;
+    public static bool isRestarted = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,22 +29,22 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             inventory.SetActive(false);
-            isPaused = pauseMenu.activeSelf;
-            Time.timeScale = isPaused ? 1f : 0f;
-            pauseMenu.SetActive(!isPaused);
-            Cursor.visible = !isPaused;
-            Cursor.lockState = isPaused ? CursorLockMode.Confined : CursorLockMode.None;
+            isnotPaused = pauseMenu.activeSelf;
+            Time.timeScale = isnotPaused ? 1f : 0f;
+            pauseMenu.SetActive(!isnotPaused);
+            Cursor.visible = !isnotPaused;
+            Cursor.lockState = isnotPaused ? CursorLockMode.Confined : CursorLockMode.None;
             FirstPersonAudio volume = Volume.GetComponent<FirstPersonAudio>();
             if (volume != null)
             {
                 volume.SetPlayingMovingAudio (null, true);
             }
             FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
-            cam.Stopcam(!isPaused);
+            cam.Stopcam(!isnotPaused);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (isPaused)
+            if (isnotPaused)
             {
                 isInventory = inventory.activeSelf;
                 Time.timeScale = isInventory ? 1f : 0f;
@@ -59,14 +60,29 @@ public class PauseMenu : MonoBehaviour
                 cam.Stopcam(!isInventory);
             }
         }
+        if (isRestarted)
+        {
+            Debug.Log(isRestarted);
+            Time.timeScale = 1f;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+            FirstPersonAudio volume = Volume.GetComponent<FirstPersonAudio>();
+            if (volume != null)
+            {
+                volume.SetPlayingMovingAudio (null, false);
+            }
+            FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
+            cam.Stopcam(false);
+            isRestarted = false;
+        }
     }
     public void Resuming()
     {
-        isPaused = pauseMenu.activeSelf;
+        isnotPaused = pauseMenu.activeSelf;
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.None;
-        pauseMenu.SetActive(!isPaused);
+        pauseMenu.SetActive(!isnotPaused);
         FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
         cam.Stopcam(false); 
     }
