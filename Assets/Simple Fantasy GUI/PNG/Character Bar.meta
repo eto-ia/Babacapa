@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Simple Fantasy GUI/PNG/Character Bar.meta
 guid: bd7a87f795bf3b7468bb6e4ce6a51e77
 folderAsset: yes
 timeCreated: 1504469844
 licenseType: Store
+========
+guid: 5bff2544887143f5807c7d5059d07f79
+folderAsset: yes
+timeCreated: 1436068007
+licenseType: Pro
+>>>>>>>> Stashed changes:Assets/TextMesh Pro/Examples & Extras/Prefabs.meta
 DefaultImporter:
   userData: 
   assetBundleName: 

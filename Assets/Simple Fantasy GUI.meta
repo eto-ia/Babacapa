@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Simple Fantasy GUI.meta
 guid: 16b59537dd9242347a04cba0b867c662
+========
+guid: 796f0382677c50e44a3844e199473430
+>>>>>>>> Stashed changes:Assets/Flooded_Grounds/Content/Meshes/mBuildings/mLightHouse/LightHouse_A.fbm/1.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

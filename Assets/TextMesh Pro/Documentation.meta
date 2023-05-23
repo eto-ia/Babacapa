@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/TextMesh Pro/Documentation.meta
 guid: 8e7e8f5a82a3a134e91c54efd2274ea9
+========
+guid: 6e7f81e05971f38469170041a5e1cb4b
+>>>>>>>> Stashed changes:Assets/Flooded_Grounds/Content/Meshes/mProps/lo_Prop_Car1_DM.fbm.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

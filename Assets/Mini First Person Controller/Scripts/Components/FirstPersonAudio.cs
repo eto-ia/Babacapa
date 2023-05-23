@@ -70,20 +70,20 @@ public class FirstPersonAudio : MonoBehaviour
         {
             if (crouch && crouch.IsCrouched)
             {
-                SetPlayingMovingAudio(crouchedAudio);
+                SetPlayingMovingAudio(crouchedAudio, false);
             }
             else if (character.IsRunning)
             {
-                SetPlayingMovingAudio(runningAudio);
+                SetPlayingMovingAudio(runningAudio, false);
             }
             else
             {
-                SetPlayingMovingAudio(stepAudio);
+                SetPlayingMovingAudio(stepAudio, false);
             }
         }
         else
         {
-            SetPlayingMovingAudio(null);
+            SetPlayingMovingAudio(null, false);
         }
 
         // Remember lastCharacterPosition.
@@ -95,18 +95,27 @@ public class FirstPersonAudio : MonoBehaviour
     /// Pause all MovingAudios and enforce play on audioToPlay.
     /// </summary>
     /// <param name="audioToPlay">Audio that should be playing.</param>
-    void SetPlayingMovingAudio(AudioSource audioToPlay)
+    public void SetPlayingMovingAudio(AudioSource audioToPlay, bool checkPause)
     {
-        // Pause all MovingAudios.
-        foreach (var audio in MovingAudios.Where(audio => audio != audioToPlay && audio != null))
+        if (!checkPause)
         {
-            audio.Pause();
+           // Pause all MovingAudios.
+            foreach (var audio in MovingAudios.Where(audio => audio != audioToPlay && audio != null))
+            {
+                audio.Pause();
+            }
+            // Play audioToPlay if it was not playing.
+            if (audioToPlay && !audioToPlay.isPlaying)
+            {
+                audioToPlay.Play();
+            } 
         }
-
-        // Play audioToPlay if it was not playing.
-        if (audioToPlay && !audioToPlay.isPlaying)
+        else
         {
-            audioToPlay.Play();
+            foreach (var audio in MovingAudios.Where(audio => audio != null))
+            {
+                audio.Pause();
+            }
         }
     }
 
@@ -194,4 +203,5 @@ public class FirstPersonAudio : MonoBehaviour
         audio.Play();
     }
     #endregion 
+
 }
