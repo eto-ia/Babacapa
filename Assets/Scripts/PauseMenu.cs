@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,19 +8,26 @@ public class PauseMenu : MonoBehaviour
     private GameObject Volume;
     private GameObject Camera;
     private GameObject inventory;
+    private GameObject settings;
     private bool isnotPaused = true;
     private bool isInventory = true;
     public static bool isRestarted = false;
+    private bool isSetting = false;
+    private Slider slidersfx;
     // Start is called before the first frame update
     void Start()
     {
+        slidersfx = GameObject.Find("SliderSFX").GetComponent<Slider>();
+        FirstPersonAudio.volume = slidersfx.value;
         Cursor.visible = false;
         pauseMenu = GameObject.Find("Pause");
         pauseMenu.SetActive(false);
         Volume = GameObject.Find("First Person Audio");
         Camera = GameObject.Find("First Person Camera");
-        inventory=GameObject.Find("Inventory");
+        inventory = GameObject.Find("Inventory");
         inventory.SetActive(false);
+        settings = GameObject.Find("Settings");
+        settings.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -85,5 +91,15 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(!isnotPaused);
         FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
         cam.Stopcam(false); 
+    }
+    public void Options()
+    {
+        isSetting = !isSetting;
+        settings.SetActive(isSetting);
+        pauseMenu.SetActive(!isSetting);
+    }
+    public void SFXChanged()
+    {
+        FirstPersonAudio.volume = slidersfx.value;
     }
 }

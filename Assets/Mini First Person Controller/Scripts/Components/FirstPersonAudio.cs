@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FirstPersonAudio : MonoBehaviour
 {
@@ -23,15 +24,12 @@ public class FirstPersonAudio : MonoBehaviour
     public Jump jump;
     public AudioSource jumpAudio;
     public AudioClip[] jumpSFX;
-
     [Header("Crouch")]
     public Crouch crouch;
     public AudioSource crouchStartAudio, crouchedAudio, crouchEndAudio;
     public AudioClip[] crouchStartSFX, crouchEndSFX;
-
     AudioSource[] MovingAudios => new AudioSource[] { stepAudio, runningAudio, crouchedAudio };
-
-
+    public static float volume;
     void Reset()
     {
         // Setup stuff.
@@ -99,7 +97,7 @@ public class FirstPersonAudio : MonoBehaviour
     {
         if (!checkPause)
         {
-           // Pause all MovingAudios.
+            // Pause all MovingAudios.
             foreach (var audio in MovingAudios.Where(audio => audio != audioToPlay && audio != null))
             {
                 audio.Pause();
@@ -107,6 +105,7 @@ public class FirstPersonAudio : MonoBehaviour
             // Play audioToPlay if it was not playing.
             if (audioToPlay && !audioToPlay.isPlaying)
             {
+                audioToPlay.volume = volume;
                 audioToPlay.Play();
             } 
         }
@@ -200,6 +199,7 @@ public class FirstPersonAudio : MonoBehaviour
 
         // Play the clip.
         audio.clip = clip;
+        audio.volume = volume;
         audio.Play();
     }
     #endregion 
