@@ -42,3 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Hud
+    uniqueID: 2634067483
+    locked: 0
+  - name: Inventory
+    uniqueID: 3395344425
+    locked: 0
+  - name: Pause
+    uniqueID: 3309321359
+    locked: 0
+  - name: Settings
+    uniqueID: 1984384365
+    locked: 0
