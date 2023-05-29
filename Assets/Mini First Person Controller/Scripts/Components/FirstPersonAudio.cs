@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FirstPersonAudio : MonoBehaviour
 {
@@ -23,15 +24,12 @@ public class FirstPersonAudio : MonoBehaviour
     public Jump jump;
     public AudioSource jumpAudio;
     public AudioClip[] jumpSFX;
-
     [Header("Crouch")]
     public Crouch crouch;
     public AudioSource crouchStartAudio, crouchedAudio, crouchEndAudio;
     public AudioClip[] crouchStartSFX, crouchEndSFX;
-
     AudioSource[] MovingAudios => new AudioSource[] { stepAudio, runningAudio, crouchedAudio };
-
-
+    public static float volume;
     void Reset()
     {
         // Setup stuff.
@@ -70,20 +68,20 @@ public class FirstPersonAudio : MonoBehaviour
         {
             if (crouch && crouch.IsCrouched)
             {
-                SetPlayingMovingAudio(crouchedAudio);
+                SetPlayingMovingAudio(crouchedAudio, false);
             }
             else if (character.IsRunning)
             {
-                SetPlayingMovingAudio(runningAudio);
+                SetPlayingMovingAudio(runningAudio, false);
             }
             else
             {
-                SetPlayingMovingAudio(stepAudio);
+                SetPlayingMovingAudio(stepAudio, false);
             }
         }
         else
         {
-            SetPlayingMovingAudio(null);
+            SetPlayingMovingAudio(null, false);
         }
 
         // Remember lastCharacterPosition.
@@ -95,18 +93,28 @@ public class FirstPersonAudio : MonoBehaviour
     /// Pause all MovingAudios and enforce play on audioToPlay.
     /// </summary>
     /// <param name="audioToPlay">Audio that should be playing.</param>
-    void SetPlayingMovingAudio(AudioSource audioToPlay)
+    public void SetPlayingMovingAudio(AudioSource audioToPlay, bool checkPause)
     {
-        // Pause all MovingAudios.
-        foreach (var audio in MovingAudios.Where(audio => audio != audioToPlay && audio != null))
+        if (!checkPause)
         {
-            audio.Pause();
+            // Pause all MovingAudios.
+            foreach (var audio in MovingAudios.Where(audio => audio != audioToPlay && audio != null))
+            {
+                audio.Pause();
+            }
+            // Play audioToPlay if it was not playing.
+            if (audioToPlay && !audioToPlay.isPlaying)
+            {
+                audioToPlay.volume = volume;
+                audioToPlay.Play();
+            } 
         }
-
-        // Play audioToPlay if it was not playing.
-        if (audioToPlay && !audioToPlay.isPlaying)
+        else
         {
-            audioToPlay.Play();
+            foreach (var audio in MovingAudios.Where(audio => audio != null))
+            {
+                audio.Pause();
+            }
         }
     }
 
@@ -191,7 +199,9 @@ public class FirstPersonAudio : MonoBehaviour
 
         // Play the clip.
         audio.clip = clip;
+        audio.volume = volume;
         audio.Play();
     }
     #endregion 
+
 }
