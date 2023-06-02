@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,12 +14,21 @@ public class PauseMenu : MonoBehaviour
     private bool isInventory = true;
     public static bool isRestarted = false;
     private bool isSetting = false;
-    private Slider slidersfx;
-    // Start is called before the first frame update
+    public Slider sfx;
+    public Slider music;
+    public Slider sens;
+    private string values;
+    
     void Start()
     {
-        slidersfx = GameObject.Find("SliderSFX").GetComponent<Slider>();
-        FirstPersonAudio.volume = slidersfx.value;
+        using (StreamReader reader = new StreamReader("Assets/Resources/SliderValue.txt", false))
+        {
+            values = reader.ReadLine();
+        }
+        music.value = float.Parse(values.Split(" ")[0]);
+        sfx.value = float.Parse(values.Split(" ")[1]);
+        sens.value = float.Parse(values.Split(" ")[2]);
+        FirstPersonAudio.volume = sfx.value;
         Cursor.visible = false;
         pauseMenu = GameObject.Find("Pause");
         pauseMenu.SetActive(false);
@@ -29,10 +39,13 @@ public class PauseMenu : MonoBehaviour
         settings = GameObject.Find("Settings");
         settings.SetActive(false);
     }
-    // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
         if (Input.GetKeyDown(KeyCode.Escape))
+=======
+        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf)
+>>>>>>> Stashed changes
         {
             inventory.SetActive(false);
             isnotPaused = pauseMenu.activeSelf;
@@ -50,7 +63,7 @@ public class PauseMenu : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (isnotPaused)
+            if (!pauseMenu.activeSelf && !settings.activeSelf)
             {
                 isInventory = inventory.activeSelf;
                 Time.timeScale = isInventory ? 1f : 0f;
@@ -100,6 +113,10 @@ public class PauseMenu : MonoBehaviour
     }
     public void SFXChanged()
     {
-        FirstPersonAudio.volume = slidersfx.value;
+        FirstPersonAudio.volume = sfx.value;
+    }
+    public void sensChanged ()
+    {
+        FirstPersonLook.sensitivity = sens.value;
     }
 }

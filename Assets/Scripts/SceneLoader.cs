@@ -1,20 +1,25 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    private GameObject Volume;
-    private GameObject Camera;
-    void Start()
-    {
-        Volume = GameObject.Find("First Person Audio");
-        Camera = GameObject.Find("First Person Camera");
-    }
-    public void SceneLoad(int index)
+    public Slider sfx;
+    public Slider music;
+    public Slider sens;
+    public int index;
+    private string values;
+    public void SceneLoad()
     {
         if (index > 0)
         {
             PauseMenu.isRestarted = true;
+        }
+        using (StreamWriter writer = new StreamWriter("Assets/Resources/SliderValue.txt", false))
+        {
+            values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
+            writer.WriteLine(values);
         }
         SceneManager.LoadScene(index);
     }
