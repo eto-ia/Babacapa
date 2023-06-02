@@ -1,38 +1,42 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
 
-    private GameObject pauseMenu;
-    private GameObject Volume;
-    private GameObject Camera;
-    private GameObject inventory;
-    private GameObject settings;
+    public GameObject pauseMenu;
+    public GameObject Volume;
+    public GameObject Camera;
+    public GameObject inventory;
+    public GameObject settings;
     private bool isnotPaused = true;
     private bool isInventory = true;
     public static bool isRestarted = false;
     private bool isSetting = false;
-    private Slider slidersfx;
-    // Start is called before the first frame update
+    public Slider sfx;
+    public Slider music;
+    public Slider sens;
+    private string values;
+    
     void Start()
     {
-        slidersfx = GameObject.Find("SliderSFX").GetComponent<Slider>();
-        FirstPersonAudio.volume = slidersfx.value;
+        using (StreamReader reader = new StreamReader("Assets/Resources/SliderValue.txt", false))
+        {
+            values = reader.ReadLine();
+        }
+        music.value = float.Parse(values.Split(" ")[0]);
+        sfx.value = float.Parse(values.Split(" ")[1]);
+        sens.value = float.Parse(values.Split(" ")[2]);
+        FirstPersonAudio.volume = sfx.value;
         Cursor.visible = false;
-        pauseMenu = GameObject.Find("Pause");
         pauseMenu.SetActive(false);
-        Volume = GameObject.Find("First Person Audio");
-        Camera = GameObject.Find("First Person Camera");
-        inventory = GameObject.Find("Inventory");
         inventory.SetActive(false);
-        settings = GameObject.Find("Settings");
         settings.SetActive(false);
     }
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isSetting)
+        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf)
         {
             inventory.SetActive(false);
             isnotPaused = pauseMenu.activeSelf;
@@ -50,7 +54,7 @@ public class PauseMenu : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (isnotPaused)
+            if (!pauseMenu.activeSelf && !settings.activeSelf)
             {
                 isInventory = inventory.activeSelf;
                 Time.timeScale = isInventory ? 1f : 0f;
@@ -99,6 +103,10 @@ public class PauseMenu : MonoBehaviour
     }
     public void SFXChanged()
     {
-        FirstPersonAudio.volume = slidersfx.value;
+        FirstPersonAudio.volume = sfx.value;
+    }
+    public void sensChanged ()
+    {
+        FirstPersonLook.sensitivity = sens.value;
     }
 }
