@@ -36,4 +36,8 @@ public class MainMenu : MonoBehaviour
     {
         FirstPersonLook.sensitivity = sens.value;
     }
+    public void musicChanged()
+    {
+        Music.volume = music.value;
+    }
 }

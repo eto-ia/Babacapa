@@ -1,21 +1,47 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LightSwitch : MonoBehaviour
 {
-    public Light light; // Объект освещения, который вы хотите включать и выключать
-    public AudioSource audioSource; // Аудио источник, который будет воспроизводить звук при включении света
+    public Transform PlayerCamera;
+    public float MaxDistance = 3;
+    private bool opened = false;
+    public Light[] lamps = new Light[6];
+    public AudioSource audioOn;
+    public AudioSource audioOff; 
+    private Animator anim;
+    private int indexLamp;
+    public static float volume;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // Проверяем, нажата ли кнопка E
+        if (Input.GetKeyDown(KeyCode.E)) 
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Создаем луч из камеры в направлении указателя мыши
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Switch")) // Проверяем, что луч столкнулся с объектом выключателя
+            RaycastHit switchhit;
+            if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out switchhit, MaxDistance))
             {
-                light.enabled = !light.enabled; // Инвертируем значение свойства "включено" объекта освещения
-                audioSource.Play(); // Воспроизводим звук
+                if (switchhit.transform.tag == "Switch")
+                {
+                    Debug.Log("2");
+                    audioOn = switchhit.transform.Find("On").GetComponent<AudioSource>();
+                    audioOff = switchhit.transform.Find("Off").GetComponent<AudioSource>();
+                    indexLamp = int.Parse(switchhit.transform.GetComponentInParent<Text>().text);
+                    anim = switchhit.transform.GetComponentInChildren<Animator>();
+                    if (lamps[indexLamp].enabled)
+                    {
+                        audioOff.volume = volume;
+                        audioOff.Play();
+                    }
+                    else
+                    {
+                        audioOn.volume = volume;
+                        audioOn.Play();
+                    }
+                    lamps[indexLamp].enabled = !lamps[indexLamp].enabled;
+                    anim.SetBool("On", lamps[indexLamp].enabled);
+                    anim.SetBool("Off", !lamps[indexLamp].enabled);
+                }
+
             }
         }
     }

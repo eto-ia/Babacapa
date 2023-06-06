@@ -23,7 +23,7 @@ public class DoorScript : MonoBehaviour
             {
                 anim = doorhit.transform.GetComponentInParent<Animator>();
                 opened = !opened;
-                anim.SetBool("Opened", opened);
+                anim.Play("Open");
             }
         }
     }

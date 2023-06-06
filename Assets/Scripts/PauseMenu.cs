@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject Camera;
     public GameObject inventory;
     public GameObject settings;
+    public GameObject warning;
     private bool isnotPaused = true;
     private bool isInventory = true;
     public static bool isRestarted = false;
@@ -28,15 +29,17 @@ public class PauseMenu : MonoBehaviour
         music.value = float.Parse(values.Split(" ")[0]);
         sfx.value = float.Parse(values.Split(" ")[1]);
         sens.value = float.Parse(values.Split(" ")[2]);
+        musicChanged(); SFXChanged(); sensChanged();
         FirstPersonAudio.volume = sfx.value;
         Cursor.visible = false;
         pauseMenu.SetActive(false);
         inventory.SetActive(false);
         settings.SetActive(false);
+        warning.SetActive(false);
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf && !warning.activeSelf)
         {
             inventory.SetActive(false);
             isnotPaused = pauseMenu.activeSelf;
@@ -54,7 +57,7 @@ public class PauseMenu : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (!pauseMenu.activeSelf && !settings.activeSelf)
+            if (!pauseMenu.activeSelf && !settings.activeSelf && !warning.activeSelf)
             {
                 isInventory = inventory.activeSelf;
                 Time.timeScale = isInventory ? 1f : 0f;
@@ -104,9 +107,20 @@ public class PauseMenu : MonoBehaviour
     public void SFXChanged()
     {
         FirstPersonAudio.volume = sfx.value;
+        DoorSound.volume = sfx.value;
+        LightSwitch.volume = sfx.value;
+    }
+    public void musicChanged()
+    {
+
     }
     public void sensChanged ()
     {
         FirstPersonLook.sensitivity = sens.value;
+    }
+    public void Warn()
+    {
+        warning.SetActive(!warning.activeSelf);
+        pauseMenu.SetActive(!warning.activeSelf);
     }
 }

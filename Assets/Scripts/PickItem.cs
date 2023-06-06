@@ -72,11 +72,11 @@ public class PickItem : MonoBehaviour
                 }
                 imageHitItem = Item.collider.gameObject.GetComponent<Image>();
                 handFilter.mesh = Item.collider.gameObject.GetComponentInChildren<MeshFilter>().mesh;
-                handRenderer.material = Item.collider.gameObject.GetComponentInChildren<MeshRenderer>().material;
+                handRenderer.materials = Item.collider.gameObject.GetComponentInChildren<MeshRenderer>().materials;
                 itemInfo = Item.collider.gameObject.GetComponentInChildren<Text>().text.Split("\n");
                 hudInfo[activeSlot].text = Item.collider.gameObject.GetComponentInChildren<Text>().text;
                 hudMeshF[activeSlot].mesh = Item.collider.gameObject.GetComponentInChildren<MeshFilter>().mesh;
-                hudMeshR[activeSlot].material = Item.collider.gameObject.GetComponentInChildren<MeshRenderer>().material;
+                hudMeshR[activeSlot].materials = Item.collider.gameObject.GetComponentInChildren<MeshRenderer>().materials;
                 hudImages[activeSlot].sprite = Item.collider.gameObject.GetComponent<Image>().sprite;
                 hudImages[activeSlot].enabled = true;
                 cpos = itemInfo[2].Split(" ");

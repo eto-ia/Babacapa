@@ -40,7 +40,7 @@ public class DeleteItem : MonoBehaviour
         {
             hudInfo[curSlot].text = null;
             hudMeshF[curSlot].mesh = null;
-            hudMeshR[curSlot].material = null;
+            hudMeshR[curSlot].materials = null;
             hudImages[curSlot].enabled = false;
             PickItem.activeSlots[curSlot] = false;
             PickItem.activeSlot = 0;
@@ -54,7 +54,7 @@ public class DeleteItem : MonoBehaviour
             }
             hudInfo[curSlot + curActiveSlots].text = null;
             hudMeshF[curSlot + curActiveSlots].mesh = null;
-            hudMeshR[curSlot + curActiveSlots].material = null;
+            hudMeshR[curSlot + curActiveSlots].materials = null;
             hudImages[curSlot + curActiveSlots].enabled = false;
             PickItem.activeSlots[curSlot + curActiveSlots] = false;
             PickItem.activeSlot = 0;
@@ -67,7 +67,7 @@ public class DeleteItem : MonoBehaviour
     {
         hudInfo[index].text = hudInfo[index + 1].text;
         hudMeshF[index].mesh = hudMeshF[index + 1].mesh;
-        hudMeshR[index].material = hudMeshR[index + 1].material;
+        hudMeshR[index].materials = hudMeshR[index + 1].materials;
         hudImages[index].sprite = hudImages[index + 1].sprite;
     }
     private void deleteInventory()

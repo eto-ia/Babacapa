@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
+    public AudioSource bgmusic;
     public Slider sfx;
     public Slider music;
     public Slider sens;
@@ -16,6 +17,7 @@ public class SceneLoader : MonoBehaviour
         {
             PauseMenu.isRestarted = true;
         }
+        bgmusic.Stop();
         using (StreamWriter writer = new StreamWriter("Assets/Resources/SliderValue.txt", false))
         {
             values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
