@@ -11,7 +11,6 @@ public class FirstPersonAudio : MonoBehaviour
     public AudioSource stepAudio;
     public AudioSource runningAudio;
     [Tooltip("Minimum velocity for moving audio to play")]
-    /// <summary> "Minimum velocity for moving audio to play" </summary>
     public float velocityThreshold = .01f;
     Vector2 lastCharacterPosition;
     Vector2 CurrentCharacterPosition => new Vector2(character.transform.position.x, character.transform.position.z);
@@ -32,21 +31,16 @@ public class FirstPersonAudio : MonoBehaviour
     public static float volume;
     void Reset()
     {
-        // Setup stuff.
         character = GetComponentInParent<FirstPersonMovement>();
         groundCheck = (transform.parent ?? transform).GetComponentInChildren<GroundCheck>();
         stepAudio = GetOrCreateAudioSource("Step Audio");
         runningAudio = GetOrCreateAudioSource("Running Audio");
         landingAudio = GetOrCreateAudioSource("Landing Audio");
-
-        // Setup jump audio.
         jump = GetComponentInParent<Jump>();
         if (jump)
         {
             jumpAudio = GetOrCreateAudioSource("Jump audio");
         }
-
-        // Setup crouch audio.
         crouch = GetComponentInParent<Crouch>();
         if (crouch)
         {
@@ -62,7 +56,6 @@ public class FirstPersonAudio : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Play moving audio if the character is moving and on the ground.
         float velocity = Vector3.Distance(CurrentCharacterPosition, lastCharacterPosition);
         if (velocity >= velocityThreshold && groundCheck && groundCheck.isGrounded)
         {
@@ -83,26 +76,16 @@ public class FirstPersonAudio : MonoBehaviour
         {
             SetPlayingMovingAudio(null, false);
         }
-
-        // Remember lastCharacterPosition.
         lastCharacterPosition = CurrentCharacterPosition;
     }
-
-
-    /// <summary>
-    /// Pause all MovingAudios and enforce play on audioToPlay.
-    /// </summary>
-    /// <param name="audioToPlay">Audio that should be playing.</param>
     public void SetPlayingMovingAudio(AudioSource audioToPlay, bool checkPause)
     {
         if (!checkPause)
         {
-            // Pause all MovingAudios.
             foreach (var audio in MovingAudios.Where(audio => audio != audioToPlay && audio != null))
             {
                 audio.Pause();
             }
-            // Play audioToPlay if it was not playing.
             if (audioToPlay && !audioToPlay.isPlaying)
             {
                 audioToPlay.volume = volume;
@@ -128,16 +111,11 @@ public class FirstPersonAudio : MonoBehaviour
     #region Subscribe/unsubscribe to events.
     void SubscribeToEvents()
     {
-        // PlayLandingAudio when Grounded.
         groundCheck.Grounded += PlayLandingAudio;
-
-        // PlayJumpAudio when Jumped.
         if (jump)
         {
             jump.Jumped += PlayJumpAudio;
         }
-
-        // Play crouch audio on crouch start/end.
         if (crouch)
         {
             crouch.CrouchStart += PlayCrouchStartAudio;
@@ -147,16 +125,11 @@ public class FirstPersonAudio : MonoBehaviour
 
     void UnsubscribeToEvents()
     {
-        // Undo PlayLandingAudio when Grounded.
         groundCheck.Grounded -= PlayLandingAudio;
-
-        // Undo PlayJumpAudio when Jumped.
         if (jump)
         {
             jump.Jumped -= PlayJumpAudio;
         }
-
-        // Undo play crouch audio on crouch start/end.
         if (crouch)
         {
             crouch.CrouchStart -= PlayCrouchStartAudio;
@@ -166,19 +139,11 @@ public class FirstPersonAudio : MonoBehaviour
     #endregion
 
     #region Utility.
-    /// <summary>
-    /// Get an existing AudioSource from a name or create one if it was not found.
-    /// </summary>
-    /// <param name="name">Name of the AudioSource to search for.</param>
-    /// <returns>The created AudioSource.</returns>
     AudioSource GetOrCreateAudioSource(string name)
     {
-        // Try to get the audiosource.
         AudioSource result = System.Array.Find(GetComponentsInChildren<AudioSource>(), a => a.name == name);
         if (result)
             return result;
-
-        // Audiosource does not exist, create it.
         result = new GameObject(name).AddComponent<AudioSource>();
         result.spatialBlend = 1;
         result.playOnAwake = false;
@@ -190,14 +155,10 @@ public class FirstPersonAudio : MonoBehaviour
     {
         if (!audio || clips.Length <= 0)
             return;
-
-        // Get a random clip. If possible, make sure that it's not the same as the clip that is already on the audiosource.
         AudioClip clip = clips[Random.Range(0, clips.Length)];
         if (clips.Length > 1)
             while (clip == audio.clip)
                 clip = clips[Random.Range(0, clips.Length)];
-
-        // Play the clip.
         audio.clip = clip;
         audio.volume = volume;
         audio.Play();

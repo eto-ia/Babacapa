@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject inventory;
     public GameObject settings;
     public GameObject warning;
+    public GameObject notes;
     private bool isnotPaused = true;
     private bool isInventory = true;
     public static bool isRestarted = false;
@@ -39,7 +40,7 @@ public class PauseMenu : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf && !warning.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf && !warning.activeSelf && !notes.activeSelf)
         {
             inventory.SetActive(false);
             isnotPaused = pauseMenu.activeSelf;
@@ -57,7 +58,7 @@ public class PauseMenu : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (!pauseMenu.activeSelf && !settings.activeSelf && !warning.activeSelf)
+            if (!pauseMenu.activeSelf && !settings.activeSelf && !warning.activeSelf && !notes.activeSelf)
             {
                 isInventory = inventory.activeSelf;
                 Time.timeScale = isInventory ? 1f : 0f;
@@ -69,8 +70,7 @@ public class PauseMenu : MonoBehaviour
                 {
                     volume.SetPlayingMovingAudio (null, true);
                 }
-                FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
-                cam.Stopcam(!isInventory);
+                Camera.GetComponent<FirstPersonLook>().Stopcam(!isInventory);
             }
         }
         if (isRestarted)

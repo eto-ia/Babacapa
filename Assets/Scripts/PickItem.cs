@@ -5,7 +5,10 @@ using TMPro;
 public class PickItem : MonoBehaviour
 {
     public GameObject Camera;
+    public GameObject Volume;
     public float Distance;
+    public GameObject noteScreen;
+    public Image note;
     public static Image[] inventoryImages = new Image[8];
     public static TextMeshProUGUI[] inventoryName = new TextMeshProUGUI[8];
     public static TextMeshProUGUI[] inventoryDes = new TextMeshProUGUI[8];
@@ -29,6 +32,8 @@ public class PickItem : MonoBehaviour
     private float[] scale = new float[3];
     public static int activeSlot = 0;
     private int SlotInv = 0;
+    public AudioSource sfx;
+    public Slider sfxs;
     void Awake()
     {
         for (int i = 0; i < 8; i++)
@@ -45,7 +50,8 @@ public class PickItem : MonoBehaviour
             hudInfo[i] = GameObject.Find("SlotInfo" + (i + 1).ToString()).GetComponent<Text>();
             hudMeshF[i] = GameObject.Find("SlotInfo" + (i + 1).ToString()).GetComponent<MeshFilter>();
             hudMeshR[i] = GameObject.Find("SlotInfo" + (i + 1).ToString()).GetComponent<MeshRenderer>();
-        }        
+        }
+        noteScreen.SetActive(false);     
     }
     void Update()
     {
@@ -56,6 +62,14 @@ public class PickItem : MonoBehaviour
     }
     private void ObjectGetter()
     {
+        if (noteScreen.activeSelf == true)
+        {
+            Time.timeScale = 1f;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+            Camera.GetComponent<FirstPersonLook>().Stopcam(false);
+            noteScreen.SetActive(false);
+        }
         RaycastHit Item;
         if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out Item , Distance))
         {
@@ -74,6 +88,16 @@ public class PickItem : MonoBehaviour
                 handFilter.mesh = Item.collider.gameObject.GetComponentInChildren<MeshFilter>().mesh;
                 handRenderer.materials = Item.collider.gameObject.GetComponentInChildren<MeshRenderer>().materials;
                 itemInfo = Item.collider.gameObject.GetComponentInChildren<Text>().text.Split("\n");
+                sfx.volume = sfxs.value;
+                if (Item.transform.gameObject.name == "Rune")
+                {
+                    sfx.clip = Resources.Load<AudioClip>("SFX/rune");
+                }
+                else if (Item.transform.gameObject.name == "Crystal")
+                {
+                    sfx.clip = Resources.Load<AudioClip>("SFX/crystal");
+                }
+                sfx.Play();
                 hudInfo[activeSlot].text = Item.collider.gameObject.GetComponentInChildren<Text>().text;
                 hudMeshF[activeSlot].mesh = Item.collider.gameObject.GetComponentInChildren<MeshFilter>().mesh;
                 hudMeshR[activeSlot].materials = Item.collider.gameObject.GetComponentInChildren<MeshRenderer>().materials;
@@ -93,6 +117,26 @@ public class PickItem : MonoBehaviour
                 hand.transform.localScale = new Vector3(scale[0], scale[1], scale[2]);
                 ItemSetter(imageHitItem.sprite, itemInfo[0], itemInfo[1]);
                 Destroy(imageHitItem.gameObject);
+            }
+            else if (Item.transform.tag == "Note")
+            {
+                imageHitItem = Item.collider.gameObject.GetComponent<Image>();
+                itemInfo = Item.collider.gameObject.GetComponentInChildren<Text>().text.Split("\n");
+                sfx.clip = Resources.Load<AudioClip>("SFX/note");
+                sfx.Play();
+                note.sprite = imageHitItem.sprite;
+                noteScreen.SetActive(true);
+                Time.timeScale = 0f;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+                Camera.GetComponent<FirstPersonLook>().Stopcam(true);
+                ItemSetter(Resources.Load<Sprite>("notes/note_bg"), itemInfo[0], itemInfo[1]);
+                Destroy(imageHitItem.gameObject);
+                FirstPersonAudio volume = Volume.GetComponent<FirstPersonAudio>();
+                if (volume != null)
+                {
+                    volume.SetPlayingMovingAudio (null, true);
+                }
             }
         }
     }

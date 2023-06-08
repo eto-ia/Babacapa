@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
@@ -22,8 +23,7 @@ public class DoorScript : MonoBehaviour
             if (doorhit.transform.tag == "Door")
             {
                 anim = doorhit.transform.GetComponentInParent<Animator>();
-                opened = !opened;
-                anim.Play("Open");
+                anim.Play("Open" + doorhit.transform.gameObject.GetComponentInChildren<Text>().text);
             }
         }
     }
