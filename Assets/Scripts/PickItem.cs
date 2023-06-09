@@ -97,6 +97,10 @@ public class PickItem : MonoBehaviour
                 {
                     sfx.clip = Resources.Load<AudioClip>("SFX/crystal");
                 }
+                else
+                {
+                    sfx.clip = Resources.Load<AudioClip>("sfx/pickup");
+                }
                 sfx.Play();
                 hudInfo[activeSlot].text = Item.collider.gameObject.GetComponentInChildren<Text>().text;
                 hudMeshF[activeSlot].mesh = Item.collider.gameObject.GetComponentInChildren<MeshFilter>().mesh;

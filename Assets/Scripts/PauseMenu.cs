@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     public Slider music;
     public Slider sens;
     private string values;
+    public AudioSource Music;
     
     void Start()
     {
@@ -75,16 +76,17 @@ public class PauseMenu : MonoBehaviour
         }
         if (isRestarted)
         {
-            Time.timeScale = 1f;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.None;
-            FirstPersonAudio volume = Volume.GetComponent<FirstPersonAudio>();
-            if (volume != null)
+            if (Time.timeScale == 0f)
             {
-                volume.SetPlayingMovingAudio (null, false);
-            }
-            FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
-            cam.Stopcam(false);
+                Time.timeScale = 1f;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
+                FirstPersonAudio volume = Volume.GetComponent<FirstPersonAudio>();
+                if (volume != null)
+                {
+                    volume.SetPlayingMovingAudio (null, false);
+                }
+            }            
             isRestarted = false;
         }
     }
@@ -103,6 +105,11 @@ public class PauseMenu : MonoBehaviour
         isSetting = !isSetting;
         settings.SetActive(isSetting);
         pauseMenu.SetActive(!isSetting);
+        using (StreamWriter writer = new StreamWriter("Assets/Resources/SliderValue.txt", false))
+        {
+            values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
+            writer.WriteLine(values);
+        }
     }
     public void SFXChanged()
     {
@@ -112,7 +119,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void musicChanged()
     {
-
+        Music.volume = music.value;
     }
     public void sensChanged ()
     {

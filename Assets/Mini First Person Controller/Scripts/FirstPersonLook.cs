@@ -9,17 +9,16 @@ public class FirstPersonLook : MonoBehaviour
 
     Vector2 velocity;
     Vector2 frameVelocity;
-    private bool checkPause = false;
+    public static bool checkPause = true;
 
     void Reset()
     {
-        // Get the character from the FirstPersonMovement in parents.
         character = GetComponentInParent<FirstPersonMovement>().transform;
     }
 
     void Start()
     {
-        // Lock the mouse cursor to the game screen.
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -27,7 +26,6 @@ public class FirstPersonLook : MonoBehaviour
     {
         if (!checkPause)
         {
-            // Get smooth velocity.
             Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
             Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
             frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);

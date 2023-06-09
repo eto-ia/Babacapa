@@ -9,9 +9,8 @@ public class SceneLoader : MonoBehaviour
     public Slider sfx;
     public Slider music;
     public Slider sens;
-    public int index;
     private string values;
-    public void SceneLoad()
+    public void SceneLoad(int index)
     {
         if (index > 0)
         {

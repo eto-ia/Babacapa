@@ -8,6 +8,7 @@ TagManager:
   - PickableItem
   - Switch
   - Note
+  - Barn
   layers:
   - Default
   - TransparentFX
@@ -56,4 +57,7 @@ TagManager:
     locked: 0
   - name: Settings
     uniqueID: 1984384365
+    locked: 0
+  - name: Black
+    uniqueID: 317892883
     locked: 0

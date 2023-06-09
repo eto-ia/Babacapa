@@ -32,7 +32,7 @@ public class HandSwitcher : MonoBehaviour
             hand.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             hand.transform.localScale = new Vector3(0f, 0f, 0f);
             hand.GetComponent<MeshFilter>().mesh = null;
-            hand.GetComponent<MeshRenderer>().materials = null;
+            hand.GetComponent<MeshRenderer>().materials = new Material[0];
             return;
         }
         hand.GetComponent<MeshFilter>().mesh = hudMeshF[slotIndex].mesh;

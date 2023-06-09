@@ -10,13 +10,9 @@ public class FirstPersonMovement : MonoBehaviour
     public bool IsRunning { get; private set; }
     public float runSpeed = 9;
     public KeyCode runningKey = KeyCode.LeftShift;
-
-
     Rigidbody rigidbody1;
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
-
-
-
+    public static bool checkPause = true;
     void Awake()
     {
         rigidbody1 = GetComponent<Rigidbody>();
@@ -24,14 +20,16 @@ public class FirstPersonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        IsRunning = canRun && Input.GetKey(runningKey);
-        float targetMovingSpeed = IsRunning ? runSpeed : speed;
-        if (speedOverrides.Count > 0)
+        if (!checkPause)
         {
-            targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
+            IsRunning = canRun && Input.GetKey(runningKey);
+            float targetMovingSpeed = IsRunning ? runSpeed : speed;
+            if (speedOverrides.Count > 0)
+            {
+                targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
+            }
+            Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
+            rigidbody1.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody1.velocity.y, targetVelocity.y);
         }
-        Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
-        rigidbody1.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody1.velocity.y, targetVelocity.y);
-
     }
 }

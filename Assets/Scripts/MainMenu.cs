@@ -27,6 +27,11 @@ public class MainMenu : MonoBehaviour
         isSet = !set.activeSelf;
         set.SetActive(isSet);
         menu.SetActive(!isSet);
+        using (StreamWriter writer = new StreamWriter("Assets/Resources/SliderValue.txt", false))
+        {
+            values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
+            writer.WriteLine(values);
+        }
     }
     public void SFXChanged()
     {

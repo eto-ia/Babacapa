@@ -4,17 +4,19 @@ using TMPro;
 
 public class DeleteItem : MonoBehaviour
 {
-    private Text[] hudInfo = new Text[5];
-    private MeshFilter[] hudMeshF = new MeshFilter[5];
-    private MeshRenderer[] hudMeshR = new MeshRenderer[5];
-    private Image[] hudImages = new Image[5];
-    public TextMeshProUGUI Name;
-    public TextMeshProUGUI Description;
-    private int curSlot;
-    private int curActiveSlots = 0;
-    private string targetText;
-    private int curSlotInv;
-    private int curActiveSlotsInv = 0;
+    public TextMeshProUGUI namer;
+    public TextMeshProUGUI desna;
+    private static Text[] hudInfo = new Text[5];
+    private static MeshFilter[] hudMeshF = new MeshFilter[5];
+    private static MeshRenderer[] hudMeshR = new MeshRenderer[5];
+    private static Image[] hudImages = new Image[5];
+    public static TextMeshProUGUI Name;
+    public static TextMeshProUGUI Description;
+    private static int curSlot;
+    private static int curActiveSlots = 0;
+    private static string targetText;
+    private static int curSlotInv;
+    private static int curActiveSlotsInv = 0;
     void Awake() 
     {
         for (int i = 0; i < 5; i++)
@@ -24,8 +26,10 @@ public class DeleteItem : MonoBehaviour
             hudMeshR[i] = GameObject.Find("SlotInfo" + (i + 1).ToString()).GetComponent<MeshRenderer>();
             hudImages[i] = GameObject.Find("HudSlotImage" + (i + 1).ToString()).GetComponent<Image>();
         }
+        Name = namer;
+        Description = desna;
     }
-    public void deleteHud()
+    public static void deleteHud()
     {
         curSlot = PickItem.activeSlot;
         targetText = hudInfo[curSlot].text.Split("\n")[0];
@@ -40,7 +44,7 @@ public class DeleteItem : MonoBehaviour
         {
             hudInfo[curSlot].text = null;
             hudMeshF[curSlot].mesh = null;
-            hudMeshR[curSlot].materials = null;
+            hudMeshR[curSlot].materials = new Material[0];;
             hudImages[curSlot].enabled = false;
             PickItem.activeSlots[curSlot] = false;
             PickItem.activeSlot = 0;
@@ -54,7 +58,7 @@ public class DeleteItem : MonoBehaviour
             }
             hudInfo[curSlot + curActiveSlots].text = null;
             hudMeshF[curSlot + curActiveSlots].mesh = null;
-            hudMeshR[curSlot + curActiveSlots].materials = null;
+            hudMeshR[curSlot + curActiveSlots].materials = new Material[0];;
             hudImages[curSlot + curActiveSlots].enabled = false;
             PickItem.activeSlots[curSlot + curActiveSlots] = false;
             PickItem.activeSlot = 0;
@@ -63,16 +67,15 @@ public class DeleteItem : MonoBehaviour
         curActiveSlots = 0;
         deleteInventory();
     }
-    private void switchSlot(int index)
+    public static void switchSlot(int index)
     {
         hudInfo[index].text = hudInfo[index + 1].text;
         hudMeshF[index].mesh = hudMeshF[index + 1].mesh;
         hudMeshR[index].materials = hudMeshR[index + 1].materials;
         hudImages[index].sprite = hudImages[index + 1].sprite;
     }
-    private void deleteInventory()
+    public static void deleteInventory()
     {
-        Debug.Log(targetText);
         for (int i = 0; i < 8; i++)
         {
             if (PickItem.inventoryName[i].text == targetText)
@@ -80,7 +83,6 @@ public class DeleteItem : MonoBehaviour
                 curSlotInv = i;
             }
         }
-        Debug.Log(curSlotInv);
         for (int i = curSlotInv + 1; i < 8; i++)
         {
             if (PickItem.inventoryImages[i].sprite != null)
@@ -89,7 +91,6 @@ public class DeleteItem : MonoBehaviour
             }
             else break;
         }
-        Debug.Log(curSlotInv + "  " + curActiveSlotsInv);
         if (curSlotInv == 0 && curActiveSlotsInv == 0)
         {
             PickItem.inventoryImages[curSlotInv].sprite = null;
@@ -112,7 +113,7 @@ public class DeleteItem : MonoBehaviour
         Name.text = null;
         Description.text = null;
     }
-    private void switchSlotInv(int index)
+    public static void switchSlotInv(int index)
     {
         PickItem.inventoryImages[index].sprite = PickItem.inventoryImages[index + 1].sprite;
         PickItem.inventoryName[index].text = PickItem.inventoryName[index + 1].text;
