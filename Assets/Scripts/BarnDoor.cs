@@ -10,11 +10,14 @@ public class BarnDoor : MonoBehaviour
     public MeshFilter hand;
     public Animator door;
     public AudioSource sfx;
+    public AudioSource dialog;
     private float maxD = 3;
     public Text[] Slots = new Text[5];
+    public TaskChanger ctskchng;
+    public static TaskChanger tskchng;
     void Start()
     {
-        
+        tskchng = ctskchng;
     }
     void Update()
     {
@@ -28,11 +31,23 @@ public class BarnDoor : MonoBehaviour
         RaycastHit doorhit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out doorhit, maxD))
         {
-            if (doorhit.collider.tag == "Barn" && Slots[PickItem.activeSlot].text.Split("\n")[0] == "Ржавый ключ")
+            if (doorhit.collider.tag == "Barn")
             {
-                sfx.clip = Resources.Load<AudioClip>("SFX/padlock");
-                sfx.Play();
-                Invoke ("PlayBarn", 0.5f);
+                if (Slots[PickItem.activeSlot].text.Split("\n")[0] == "Ржавый ключ")
+                {
+                    sfx.clip = Resources.Load<AudioClip>("SFX/padlock");
+                    sfx.Play();
+                    Invoke ("PlayBarn", 0.5f);
+                }
+                else
+                {
+                    if(TaskChanger.curTask == 2)
+                    {
+                        dialog.clip = Resources.Load<AudioClip>("Dialogs/find_key");
+                        dialog.Play();
+                        tskchng.taskPicker(3);
+                    }
+                }
             }
         }
     }

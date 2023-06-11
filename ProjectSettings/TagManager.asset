@@ -9,6 +9,7 @@ TagManager:
   - Switch
   - Note
   - Barn
+  - Talkable
   layers:
   - Default
   - TransparentFX

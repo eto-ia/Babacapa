@@ -21,6 +21,9 @@ public class PauseMenu : MonoBehaviour
     public Slider sens;
     private string values;
     public AudioSource Music;
+    public static bool cut = false;
+    public AudioSource SFX;
+    public AudioSource Dialog;
     
     void Start()
     {
@@ -41,7 +44,7 @@ public class PauseMenu : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf && !warning.activeSelf && !notes.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !settings.activeSelf && !warning.activeSelf && !notes.activeSelf && !cut)
         {
             inventory.SetActive(false);
             isnotPaused = pauseMenu.activeSelf;
@@ -54,12 +57,20 @@ public class PauseMenu : MonoBehaviour
             {
                 volume.SetPlayingMovingAudio (null, true);
             }
+            if (Music.isPlaying)
+            {
+                Music.Pause();
+            }
+            else
+            {
+                Music.Play();
+            }
             FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
             cam.Stopcam(!isnotPaused);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (!pauseMenu.activeSelf && !settings.activeSelf && !warning.activeSelf && !notes.activeSelf)
+            if (!pauseMenu.activeSelf && !settings.activeSelf && !warning.activeSelf && !notes.activeSelf && !cut)
             {
                 isInventory = inventory.activeSelf;
                 Time.timeScale = isInventory ? 1f : 0f;
@@ -116,6 +127,8 @@ public class PauseMenu : MonoBehaviour
         FirstPersonAudio.volume = sfx.value;
         DoorSound.volume = sfx.value;
         LightSwitch.volume = sfx.value;
+        SFX.volume = sfx.value;
+        Dialog.volume = sfx.value;
     }
     public void musicChanged()
     {
