@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject settings;
     public GameObject warning;
     public GameObject notes;
+    public GameObject whiteScreen;
     private bool isnotPaused = true;
     private bool isInventory = true;
     public static bool isRestarted = false;
@@ -41,6 +42,7 @@ public class PauseMenu : MonoBehaviour
         inventory.SetActive(false);
         settings.SetActive(false);
         warning.SetActive(false);
+        whiteScreen.SetActive(false);
     }
     void Update()
     {
@@ -109,7 +111,8 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         pauseMenu.SetActive(!isnotPaused);
         FirstPersonLook cam = Camera.GetComponent<FirstPersonLook>();
-        cam.Stopcam(false); 
+        cam.Stopcam(false);
+        Music.Play();
     }
     public void Options()
     {

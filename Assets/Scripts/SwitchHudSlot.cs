@@ -17,6 +17,7 @@ public class SwitchHudSlot : MonoBehaviour
     public GameObject inv;
     public GameObject pause;
     public GameObject set;
+    public static bool cut = false;
     void Awake() 
     {
         hand = GameObject.Find("Hand");
@@ -29,7 +30,7 @@ public class SwitchHudSlot : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0f && !pause.activeSelf && !inv.activeSelf && !set.activeSelf)
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f && !pause.activeSelf && !inv.activeSelf && !set.activeSelf && !cut)
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {

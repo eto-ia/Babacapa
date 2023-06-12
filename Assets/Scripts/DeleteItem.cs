@@ -94,6 +94,7 @@ public class DeleteItem : MonoBehaviour
         if (curSlotInv == 0 && curActiveSlotsInv == 0)
         {
             PickItem.inventoryImages[curSlotInv].sprite = null;
+            PickItem.inventoryBG[curSlotInv].enabled = false;
             PickItem.inventoryName[curSlotInv].text = null;
             PickItem.inventoryDes[curSlotInv].text = null;
             PickItem.inventoryImages[curSlotInv].enabled = false;

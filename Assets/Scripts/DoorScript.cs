@@ -10,7 +10,9 @@ public class DoorScript : MonoBehaviour
     private string index;
     public AudioSource sfx;
     public AudioSource dialog;
+    private RaycastHit doorhit;
     public static bool active34 = false;
+    private bool is34ed = false;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -21,7 +23,6 @@ public class DoorScript : MonoBehaviour
 
     void Pressed()
     {
-        RaycastHit doorhit;
         if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out doorhit, MaxDistance))
         {
             if (doorhit.transform.tag == "Door")
@@ -29,7 +30,14 @@ public class DoorScript : MonoBehaviour
                 index = doorhit.transform.gameObject.GetComponentInChildren<Text>().text;
                 if (index == "34")
                 {
-                    if (active34)
+                    if (active34 && !is34ed)
+                    {
+                        is34ed = true;
+                        dialog.clip = Resources.Load<AudioClip>("Dialogs/brother2");
+                        dialog.Play();
+                        Invoke ("PlayAnim", 5.5f);
+                    }
+                    else if (is34ed)
                     {
                         anim = doorhit.transform.GetComponentInParent<Animator>();
                         anim.Play("Open3");
@@ -47,6 +55,11 @@ public class DoorScript : MonoBehaviour
                 anim.Play("Open" + doorhit.transform.gameObject.GetComponentInChildren<Text>().text);
             }
         }
+    }
+    private void PlayAnim()
+    {
+        anim = doorhit.transform.GetComponentInParent<Animator>();
+        anim.Play("Open3");
     }
     private void PlayDialog()
     {

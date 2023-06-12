@@ -6,6 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject set;
     public GameObject menu;
+    public AudioSource voice;
     public Slider music;
     public Slider sfx;
     public Slider sens;
@@ -36,6 +37,7 @@ public class MainMenu : MonoBehaviour
     public void SFXChanged()
     {
         FirstPersonAudio.volume = sfx.value;
+        voice.volume = sfx.value;
     }
     public void sensChanged()
     {

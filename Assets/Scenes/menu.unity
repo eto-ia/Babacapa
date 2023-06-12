@@ -2888,6 +2888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   set: {fileID: 866087238}
   menu: {fileID: 1705594028}
+  voice: {fileID: 907631268}
   music: {fileID: 2053875010}
   sfx: {fileID: 181727938}
   sens: {fileID: 541695452}

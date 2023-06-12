@@ -16,6 +16,11 @@ public class SceneLoader : MonoBehaviour
         {
             PauseMenu.isRestarted = true;
         }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
         bgmusic.Stop();
         using (StreamWriter writer = new StreamWriter("Assets/Resources/SliderValue.txt", false))
         {

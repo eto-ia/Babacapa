@@ -12,6 +12,8 @@ public class StartScript : MonoBehaviour
     public GameObject husband;
     public GameObject skip;
     private bool skipped = false;
+    private bool canClose = false;
+    public GameObject tutor;
     void Awake()
     {
         hud.SetActive(false);
@@ -28,15 +30,19 @@ public class StartScript : MonoBehaviour
         Invoke ("tp", 30.25f);
         Invoke ("doorClose", 31.25f);
         Invoke ("outBlack", 32.25f);
-        Invoke ("Cancel", 33.75f);
+        Invoke ("start", 33.75f);
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) && !skipped)
         {
             tp();
-            Cancel();
+            start();
             skipped = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Return) && canClose)
+        {
+            tutor.SetActive(false);
         }
     }
     private void outBlack()
@@ -57,7 +63,7 @@ public class StartScript : MonoBehaviour
         car.transform.rotation = Quaternion.Euler(0f, -22.34f, 0f);
         FPC.transform.position = new Vector3(243f, 0f, 195f);
         FPC.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        Destroy(husband);
+        husband.transform.position = new Vector3(0f, 0f, 0f);
     }
     private void animTalk()
     {
@@ -73,10 +79,12 @@ public class StartScript : MonoBehaviour
         sfx.clip = Resources.Load<AudioClip>("SFX/car_door");
         sfx.Play();
     }
-    private void Cancel()
+    private void start()
     {
+        tutor.SetActive(true);
         sfx.Stop();
         dialog.Stop();
+        sfx.clip = null;
         FirstPersonLook.checkPause = false;
         FirstPersonMovement.checkPause = false;
         Jump.checkPause = false;
@@ -85,6 +93,11 @@ public class StartScript : MonoBehaviour
         hud.SetActive(true);
         skip.SetActive(false);
         PauseMenu.cut = false;
+        Invoke("Cancel", 1f);
+    }
+    private void Cancel()
+    {
+        canClose = true;
         CancelInvoke();
     }
 }

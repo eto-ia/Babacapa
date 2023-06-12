@@ -33,7 +33,7 @@ public class BarnDoor : MonoBehaviour
         {
             if (doorhit.collider.tag == "Barn")
             {
-                if (Slots[PickItem.activeSlot].text.Split("\n")[0] == "Ржавый ключ")
+                if (Slots[PickItem.activeSlot].text.Split("\n")[0] == "Ключ от амбара")
                 {
                     sfx.clip = Resources.Load<AudioClip>("SFX/padlock");
                     sfx.Play();

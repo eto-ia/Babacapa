@@ -46,6 +46,7 @@ public class Talking : MonoBehaviour
                     if (talked[0] == 1 && TaskChanger.curTask == 3)
                     {
                         talked[0] = 2;
+                        DoorScript.active34 = true;
                         dialog.clip = Resources.Load<AudioClip>("Dialogs/hus_key_ask");
                         dialog.Play();
                         animHus.SetBool("Move", true);
@@ -69,6 +70,8 @@ public class Talking : MonoBehaviour
     }
     private void Cancel()
     {
+        animHus.SetBool("Talk", false);
+        animHus.SetBool("Move", false);
         CancelInvoke();
     }
 }
