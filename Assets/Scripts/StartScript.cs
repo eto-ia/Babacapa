@@ -85,6 +85,7 @@ public class StartScript : MonoBehaviour
         sfx.Stop();
         dialog.Stop();
         sfx.clip = null;
+        dialog.clip = null;
         FirstPersonLook.checkPause = false;
         FirstPersonMovement.checkPause = false;
         Jump.checkPause = false;

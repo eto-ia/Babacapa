@@ -14,6 +14,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (index > 0)
         {
+            SceneManager.LoadScene("main");
             PauseMenu.isRestarted = true;
         }
         else
@@ -27,6 +28,5 @@ public class SceneLoader : MonoBehaviour
             values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
             writer.WriteLine(values);
         }
-        SceneManager.LoadScene(index);
     }
 }

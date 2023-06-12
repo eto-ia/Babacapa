@@ -15,13 +15,8 @@ public class Quit : MonoBehaviour
             values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
             writer.WriteLine(values);
         }
-        if (Application.isEditor)
-        {
-            UnityEditor.EditorApplication.isPlaying = false;
-        }
-        else
-        {
+        
             Application.Quit();
-        }
+     
     }
 }
