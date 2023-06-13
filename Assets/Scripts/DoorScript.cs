@@ -5,14 +5,13 @@ public class DoorScript : MonoBehaviour
 {
     public Transform PlayerCamera;
     public float MaxDistance = 3;
-    private bool opened = false;
     private Animator anim;
     private string index;
     public AudioSource sfx;
     public AudioSource dialog;
     private RaycastHit doorhit;
     public static bool active34 = false;
-    private bool is34ed = false;
+    public static bool is34ed = false;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))

@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +9,6 @@ public class Quit : MonoBehaviour
     private string values;
     public void QuitGame()
     {
-        using (StreamWriter writer = new StreamWriter("Assets/Resources/SliderValue.txt", false))
-        {
-            values = music.value.ToString() + " " + sfx.value.ToString() + " " + sens.value.ToString();
-            writer.WriteLine(values);
-        }
-        
-            Application.Quit();
-     
+        Application.Quit();
     }
 }

@@ -4,7 +4,7 @@ public class DoorSound : MonoBehaviour
 {
     public AudioSource audioOpen;
     public AudioSource audioClose;
-    public static float volume;
+    public static float volume = 1f;
     public void Open() 
     {
         audioOpen.volume = volume;

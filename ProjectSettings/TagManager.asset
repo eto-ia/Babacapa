@@ -54,14 +54,26 @@ TagManager:
   - name: Hud
     uniqueID: 2634067483
     locked: 0
+  - name: Note
+    uniqueID: 1345563879
+    locked: 0
+  - name: Tutorial
+    uniqueID: 2741662435
+    locked: 0
   - name: Inventory
     uniqueID: 3395344425
     locked: 0
   - name: Pause
     uniqueID: 3309321359
     locked: 0
+  - name: mainMenu
+    uniqueID: 260843725
+    locked: 0
   - name: Settings
     uniqueID: 1984384365
+    locked: 0
+  - name: Intro
+    uniqueID: 3760862703
     locked: 0
   - name: Black
     uniqueID: 317892883

@@ -1,25 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Intro : MonoBehaviour
 {
-    public SceneLoader scene;
     public Animator[] anims = new Animator[4];
-    public Image[] images = new Image[5];
-    public GameObject canvas;
-    public AudioSource voice;
+    public GameObject[] _images = new GameObject[5];
+    public GameObject _canvas;
+    public AudioSource dialog;
     private float cmus;
     public AudioSource bgmusic;
-    void Awake()
+    public StartScript _startScript;
+    public GameObject _menu;
+    public void IntroBeg()
     {
-        canvas.SetActive(false);
-    }
-    public void startIntro()
-    {
-        cmus = Music.volume;
-        Music.volume *= 0.1f;
-        canvas.SetActive(true);
-        images[4].enabled = true;
+        dialog.clip = Resources.Load<AudioClip>("Dialogs/Introduction");
+        Cursor.visible = false;
+        bgmusic.volume *= 0.1f;
+        _canvas.SetActive(true);
         animToBlack1();
         Invoke ("animOutBlack", 1.5f);
         Invoke ("Talk", 1.75f);
@@ -27,7 +23,7 @@ public class Intro : MonoBehaviour
         Invoke ("anim2", 11.5f);
         Invoke ("anim3", 24.5f);
         Invoke ("animToBlack2", 32.5f);
-        Invoke ("LoadScene", 34.5f);
+        Invoke ("toCut", 34.5f);
     }
     private void anim1()
     {
@@ -43,29 +39,35 @@ public class Intro : MonoBehaviour
     }
     private void animToBlack1()
     {
+        
         anims[3].Play("ToBlack");
     }
     private void animToBlack2()
     {
         anims[3].Play("ToBlack");
-        Music.volume = cmus;
     }
     private void animOutBlack()
     {
+        _images[0].SetActive(true);
+        _images[1].SetActive(true);
+        _images[2].SetActive(true);
+        _images[3].SetActive(true);
         anims[3].Play("OutBlack");
-        images[0].enabled = true;
-        images[1].enabled = true;
-        images[2].enabled = true;
-        images[3].enabled = true;
     }
     private void Talk()
     {
-        voice.Play();
+        dialog.Play();
+
     }
-    private void LoadScene()
+    private void toCut()
     {
-        Music.volume = cmus;
+        bgmusic.volume *= 10;
         bgmusic.Stop();
-        scene.SceneLoad(1);
+        _startScript.CutBeg();
+        _images[0].SetActive(false);
+        _images[1].SetActive(false);
+        _images[2].SetActive(false);
+        _images[3].SetActive(false);
+        _menu.SetActive(false);
     }
 }

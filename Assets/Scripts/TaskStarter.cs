@@ -4,10 +4,6 @@ public class TaskStarter : MonoBehaviour
 {
     public AudioSource dialog;
     public bool[] activeTasks = {false, false, false, false, false};
-    void Start()
-    {
-        
-    }
     void Update()
     {
         if (TaskChanger.curTask == 2 && !activeTasks[0])

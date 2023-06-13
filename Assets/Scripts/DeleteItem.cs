@@ -17,7 +17,7 @@ public class DeleteItem : MonoBehaviour
     private static string targetText;
     private static int curSlotInv;
     private static int curActiveSlotsInv = 0;
-    void Awake() 
+    void Start() 
     {
         for (int i = 0; i < 5; i++)
         {
@@ -44,7 +44,7 @@ public class DeleteItem : MonoBehaviour
         {
             hudInfo[curSlot].text = null;
             hudMeshF[curSlot].mesh = null;
-            hudMeshR[curSlot].materials = new Material[0];;
+            hudMeshR[curSlot].materials = new Material[0];
             hudImages[curSlot].enabled = false;
             PickItem.activeSlots[curSlot] = false;
             PickItem.activeSlot = 0;

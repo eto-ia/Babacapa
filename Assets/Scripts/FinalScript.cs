@@ -24,11 +24,7 @@ public class FinalScript : MonoBehaviour
     public GameObject hud;
     public Animator hus;
     public GameObject husband;
-    public SceneLoader scene;
-    void Start()
-    {
-        
-    }
+    public MenuController exit;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -60,6 +56,10 @@ public class FinalScript : MonoBehaviour
                 }
                 else
                 {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        PickItem.collection[i] = false;
+                    }
                     dialog.clip = Resources.Load<AudioClip>("Dialogs/yes_component");
                     dialog.Play();
                     Invoke ("toBlack", 3f);
@@ -75,7 +75,7 @@ public class FinalScript : MonoBehaviour
                     Invoke ("tp", 36f);
                     Invoke ("outWhite", 38f);
                     Invoke ("toBlack", 59.45f);
-                    Invoke ("sceneload", 62f);
+                    Invoke ("toMenu", 62f);
                 }
             }
         }
@@ -83,11 +83,11 @@ public class FinalScript : MonoBehaviour
     private void toBlack()
     {
         black.gameObject.SetActive(true);
-        black.Play("ToBlack2");
+        black.Play("ToBlack");
     }
     private void outBlack()
     {
-        black.Play("OutBlack2");
+        black.Play("OutBlack");
     }
     private void place()
     {
@@ -98,7 +98,7 @@ public class FinalScript : MonoBehaviour
         Jump.checkPause = true;
         Crouch.checkPause = true;
         SwitchHudSlot.cut = true;
-        PauseMenu.cut = true;
+        MenuController._cut = true;
         FPC.transform.position = new Vector3(285.17f, 0.2590001f, 249.659f);
         FPC.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         Camera.transform.localRotation = Quaternion.Euler(66.21f, 0f, 0f);
@@ -173,9 +173,10 @@ public class FinalScript : MonoBehaviour
         dialog.Play();
         hus.SetBool("Talk", true);
     }
-    private void sceneload()
+    private void toMenu()
     {
-        scene.SceneLoad(0);
+        collcheck = true;
+        exit.Exit();
         CancelInvoke();
     }
 }

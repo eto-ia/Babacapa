@@ -14,7 +14,7 @@ public class HandSwitcher : MonoBehaviour
     public static Text[] hudInfo = new Text[5];
     public static MeshFilter[] hudMeshF = new MeshFilter[5];
     public static MeshRenderer[] hudMeshR = new MeshRenderer[5];
-    void Awake() 
+    void Start() 
     {
         hand = GameObject.Find("Hand");
         for (int i = 0; i < 5; i++)

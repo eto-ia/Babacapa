@@ -41,7 +41,7 @@ public class PickItem : MonoBehaviour
     public AudioSource dialog;
     public TaskChanger tskchng;
     public GameObject tbook;
-    void Awake()
+    void Start()
     {
         for (int i = 0; i < 8; i++)
         {
@@ -231,6 +231,8 @@ public class PickItem : MonoBehaviour
             if (task4[0] && task4[1])
             {
                 tskchng.taskPicker(5);
+                task4[0] = false;
+                task4[1] = false;
             }
         }
         if (index == 5)
@@ -238,6 +240,8 @@ public class PickItem : MonoBehaviour
             if (task5[0] && task5[1])
             {
                 tskchng.taskPicker(6);
+                task5[0] = false;
+                task5[1] = false;
             }
         }
     }

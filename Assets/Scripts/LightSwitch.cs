@@ -5,13 +5,12 @@ public class LightSwitch : MonoBehaviour
 {
     public Transform PlayerCamera;
     public float MaxDistance = 3;
-    private bool opened = false;
     public Light[] lamps = new Light[6];
     private AudioSource audioOn;
     private AudioSource audioOff; 
     private Animator anim;
     private int indexLamp;
-    public static float volume;
+    public static float volume = 1f;
 
     void Update()
     {

@@ -15,13 +15,6 @@ public class FirstPersonLook : MonoBehaviour
     {
         character = GetComponentInParent<FirstPersonMovement>().transform;
     }
-
-    void Start()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     void Update()
     {
         if (!checkPause)
@@ -31,8 +24,6 @@ public class FirstPersonLook : MonoBehaviour
             frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
             velocity += frameVelocity;
             velocity.y = Mathf.Clamp(velocity.y, -90, 90);
-
-            // Rotate camera up-down and controller left-right from velocity.
             transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
             character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
         }

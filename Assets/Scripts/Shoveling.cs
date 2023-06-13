@@ -11,10 +11,6 @@ public class Shoveling : MonoBehaviour
     public MeshRenderer[] meshes;
     public Material mat;
     public AudioSource sfx;
-    void Start()
-    {
-        
-    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))

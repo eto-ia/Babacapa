@@ -13,12 +13,7 @@ public class BarnDoor : MonoBehaviour
     public AudioSource dialog;
     private float maxD = 3;
     public Text[] Slots = new Text[5];
-    public TaskChanger ctskchng;
-    public static TaskChanger tskchng;
-    void Start()
-    {
-        tskchng = ctskchng;
-    }
+    public TaskChanger tskchng;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.E))

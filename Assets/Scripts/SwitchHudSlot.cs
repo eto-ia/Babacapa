@@ -18,7 +18,7 @@ public class SwitchHudSlot : MonoBehaviour
     public GameObject pause;
     public GameObject set;
     public static bool cut = false;
-    void Awake() 
+    void Start() 
     {
         hand = GameObject.Find("Hand");
         for (int i = 0; i < 5; i++)

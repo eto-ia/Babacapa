@@ -7,6 +7,7 @@ public class StartScript : MonoBehaviour
     public Animator black;
     public AudioSource dialog;
     public AudioSource sfx;
+    public AudioSource music;
     public GameObject hud;
     public Animator talk;
     public GameObject husband;
@@ -14,14 +15,21 @@ public class StartScript : MonoBehaviour
     private bool skipped = false;
     private bool canClose = false;
     public GameObject tutor;
-    void Awake()
+    public Rigidbody rb;
+    void Start()
     {
         hud.SetActive(false);
     }
-    void Start()
+    public void CutBeg()
     {
-        PauseMenu.cut = true;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        rb.transform.position = new Vector3 (237.67f, 0f, 187.82f);
+        MenuController._cut = true;
         sfx.volume *= 0.5f;
+        sfx.clip = Resources.Load<AudioClip>("SFX/car_engine");
+        sfx.Play();
+        dialog.clip = Resources.Load<AudioClip>("Dialogs/initial");
         Invoke ("outBlack", 1.5f);
         Invoke ("Talk", 2f);
         Invoke ("animTalk", 8.5f);
@@ -47,11 +55,11 @@ public class StartScript : MonoBehaviour
     }
     private void outBlack()
     {
-        black.Play("OutBlack2");
+        black.Play("OutBlack");
     }
     private void toBlack()
     {
-        black.Play("ToBlack2");
+        black.Play("ToBlack");
     }
     private void Talk()
     {
@@ -75,12 +83,12 @@ public class StartScript : MonoBehaviour
     }
     private void doorClose()
     {
-        
         sfx.clip = Resources.Load<AudioClip>("SFX/car_door");
         sfx.Play();
     }
     private void start()
     {
+        MenuController.isMenu = false;
         tutor.SetActive(true);
         sfx.Stop();
         dialog.Stop();
@@ -93,7 +101,9 @@ public class StartScript : MonoBehaviour
         black.gameObject.SetActive(false);
         hud.SetActive(true);
         skip.SetActive(false);
-        PauseMenu.cut = false;
+        MenuController._cut = false;
+        music.clip = Resources.Load<AudioClip>("Music/nature_forest");
+        music.Play();
         Invoke("Cancel", 1f);
     }
     private void Cancel()

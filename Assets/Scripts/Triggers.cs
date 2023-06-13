@@ -10,14 +10,6 @@ public class Triggers : MonoBehaviour
     public Rigidbody[] books;
     public Animator lamp;
     public AudioSource lamp_sound;
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other) 
     {
         if (other.transform.gameObject.tag == "Brother" && !brother_active)
